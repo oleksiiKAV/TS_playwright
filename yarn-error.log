@@ -1,0 +1,42 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\kormilets_i\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js create playwright
+
+PATH: 
+  C:\Users\kormilets_i\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\kormilets_i\bin;C:\Program Files\Google\Chrome\Application;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Python311\Scripts;C:\Python311;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\nodejs;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\MySQL\MySQL Shell 8.0\bin;C:\Users\kormilets_i\AppData\Local\Microsoft\WindowsApps;C:\Users\kormilets_i\AppData\Roaming\npm;C:\Users\kormilets_i\AppData\Local\GitHubDesktop\bin;C:\Users\kormilets_i\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\New Relic\New Relic CLI;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.16.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: D:\QA_auto\TS_playwright\package.json: Unexpected token } in JSON at position 285
+      at JSON.parse (<anonymous>)
+      at C:\Users\kormilets_i\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\kormilets_i\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\kormilets_i\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "ts_playwright",
+    "version": "1.0.0",
+    "description": "playwright tests",
+    "main": "index.js",
+    "scripts": {    
+      "tests": "playwright test --config=playwright.config.ts --project=Chromium --reporter=html"
+    },
+    "author": "Oleksii Kormilets",
+    "license": "ISC",
+   
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

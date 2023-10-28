@@ -1,0 +1,23 @@
+{
+    "user1": {
+      "title": "Mr",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "password": "password123",
+      "day": "15",
+      "month": "February",
+      "year": "1990",
+      "newsletter": true,
+      "optin": false,
+      "firstName": "John",
+      "lastName": "Doe",
+      "company": "RPFTB Pty Ltd",
+      "address1": "123 Main St",
+      "address2": "Apt 4B",
+      "country": "Australia",
+      "state": "AU",
+      "city": "Melbourne",
+      "zipcode": "90001",
+      "mobileNumber": "1234567890"
+    }
+  }

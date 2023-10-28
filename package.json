@@ -1,0 +1,15 @@
+{
+  "name": "ts_playwright",
+  "version": "1.0.0",
+  "description": "playwright tests",
+  "main": "index.js",
+  "scripts": {
+    "tests": "playwright test --config=playwright.config.ts --project=Chromium --reporter=html"
+  },
+  "author": "Oleksii Kormilets",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.39.0",
+    "@types/node": "^20.8.9"
+  }
+}
