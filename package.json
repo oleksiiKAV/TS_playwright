@@ -4,7 +4,9 @@
   "description": "playwright tests",
   "main": "index.js",
   "scripts": {
-    "tests": "playwright test --config=playwright.config.ts --project=Chromium --reporter=html"
+    "tests": "playwright test --config=playwright.config.ts --project=Chromium --reporter=html",
+    "test:firefox": "playwright test --config=playwright.config.ts --project=Firefox --reporter=html",
+    "test:webkit": "playwright test --config=playwright.config.ts --project=WebKit --reporter=html"
   },
   "author": "Oleksii Kormilets",
   "license": "ISC",

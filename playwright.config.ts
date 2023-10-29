@@ -7,7 +7,7 @@ const config: PlaywrightTestConfig = {
   use: {
     headless: true,
     viewport: { width: 1280, height: 720 },
-    actionTimeout: 15000,
+    actionTimeout: 30000,
     ignoreHTTPSErrors: true,
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
@@ -22,14 +22,18 @@ const config: PlaywrightTestConfig = {
         baseURL: 'https://www.automationexercise.com',
         browserName: 'chromium' },
     },
-    // {
-    //   name: 'Firefox',
-    //   use: { browserName: 'firefox' },
-    // },
-    // {
-    //   name: 'Webkit',
-    //   use: { browserName: 'webkit' },
-    // },
+    {
+      name: 'Firefox',
+      use: { 
+        baseURL: 'https://www.automationexercise.com',
+        browserName: 'firefox' },
+    },
+    {
+      name: 'Webkit',
+      use: { 
+        baseURL: 'https://www.automationexercise.com',
+        browserName: 'webkit' },
+    },
   ],
 }
 

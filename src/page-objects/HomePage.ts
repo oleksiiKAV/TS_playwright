@@ -7,12 +7,18 @@ export class HomePage  extends AbstractPage {
   
   readonly logo: Locator
   readonly signUpLoginBtn: Locator  
+  readonly deleteCurrUserBtn: Locator
+  readonly productsBtn: Locator  
+  readonly cartBtn: Locator
 
   constructor(page: Page) {
     // this.page = page
     super(page)
     this.logo = page.locator('.logo')
     this.signUpLoginBtn = page.locator('[href="/login"]')
+    this.deleteCurrUserBtn = page.locator('[href="/delete_account"]')
+    this.productsBtn = page.locator('[href="/products"]')
+    this.cartBtn = page.locator('[href="/view_cart"]').first()
   }
 
   async visit() {
@@ -38,7 +44,8 @@ export class HomePage  extends AbstractPage {
 
   async deleteCurrentUser(){
     this.logo.click()
-      await this.page.locator('[href="/delete_account"]').click()
+    await this.deleteCurrUserBtn.waitFor()
+     await this.deleteCurrUserBtn.click()
       let delMess = await this.page.locator('[data-qa="account-deleted"]').textContent()
       expect(delMess).toBe('Account Deleted!')
   }

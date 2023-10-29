@@ -2,7 +2,10 @@ import { Page, Locator } from 'playwright';
 import { AbstractPage } from './AbstractPage'
 
 import * as fs from 'fs/promises';
-const path = require("path");
+
+import {generateRandomString} from '../helpers/generateRandomString';
+
+import path from "path";
 
 export class SignUpPage   extends AbstractPage {
 
@@ -31,6 +34,8 @@ export class SignUpPage   extends AbstractPage {
     readonly mobileNumber: Locator;
     readonly createAccountButton: Locator;
     readonly accountCreated: Locator;
+    readonly continueBtn: Locator;
+    readonly logOutBtn: Locator;
 
     constructor(page: Page) {
         super(page)
@@ -61,9 +66,12 @@ export class SignUpPage   extends AbstractPage {
         this.createAccountButton = page.locator('[data-qa="create-account"]');
 
         this.accountCreated = page.locator('[data-qa="account-created"]');
+
+        this.continueBtn = page.locator('[data-qa="continue-button"]');
+        this.logOutBtn =  page.locator('[href="/logout"]');
     }
 
-    async fillSignUlNameEmail(name: string, email: string) {
+    async fillSignUpNameEmail(name: string, email: string) {
         await this.signUpName.fill(name);
       await this.signUpEmail.fill(email);
       await this.signUpBtn.click()
@@ -101,6 +109,21 @@ export class SignUpPage   extends AbstractPage {
         } else {
             console.error(`User data not found for key: ${userKey}`);
         }
+    }
+
+    async signUpAndLogout(userKey: string): Promise<{ randomName: string, randomEmail: string, password: string }>{
+      const randomName = generateRandomString(10); 
+      const randomEmail = generateRandomString(10) + '@example.com'; 
+      const userData = await this.readUserData(userKey); 
+
+      await this.fillSignUpNameEmail(randomName,randomEmail)     
+      await this.signUpUser(userKey); 
+      await this.accountCreated.waitFor()
+      await this.continueBtn.click()
+      await this.logOutBtn.waitFor()
+      await this.logOutBtn.click()
+      
+      return { randomName, randomEmail, password: userData.password };
     }
 
     private async readUserData(userKey: string): Promise<any> {
