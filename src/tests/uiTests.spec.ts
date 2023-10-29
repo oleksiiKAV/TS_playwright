@@ -7,7 +7,6 @@ import { ProductsPage } from '../page-objects/ProductsPage';
 import { CartPage } from '../page-objects/CartPage';
 
 import {generateRandomString} from '../helpers/generateRandomString';
-import { beforeEach } from 'node:test';
   
 test.describe.parallel('UI Tests', () => {
   let homePage: HomePage

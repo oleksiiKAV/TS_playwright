@@ -1,11 +1,8 @@
 import { Page, Locator } from 'playwright';
 import { AbstractPage } from './AbstractPage'
-
-import * as fs from 'fs/promises';
+import { readUserData } from '../helpers/readUserData';
 
 import {generateRandomString} from '../helpers/generateRandomString';
-
-import path from "path";
 
 export class SignUpPage   extends AbstractPage {
 
@@ -78,7 +75,7 @@ export class SignUpPage   extends AbstractPage {
     }
 
     async signUpUser(userKey: string): Promise<void> {
-        const userData = await this.readUserData(userKey);
+        const userData = await readUserData(userKey);
 
         if (userData) {
             // await this.title.fill(userData.title);
@@ -114,7 +111,7 @@ export class SignUpPage   extends AbstractPage {
     async signUpAndLogout(userKey: string): Promise<{ randomName: string, randomEmail: string, password: string }>{
       const randomName = generateRandomString(10); 
       const randomEmail = generateRandomString(10) + '@example.com'; 
-      const userData = await this.readUserData(userKey); 
+      const userData = await readUserData(userKey); 
 
       await this.fillSignUpNameEmail(randomName,randomEmail)     
       await this.signUpUser(userKey); 
@@ -122,20 +119,9 @@ export class SignUpPage   extends AbstractPage {
       await this.continueBtn.click()
       await this.logOutBtn.waitFor()
       await this.logOutBtn.click()
-      
+
       return { randomName, randomEmail, password: userData.password };
     }
 
-    private async readUserData(userKey: string): Promise<any> {
-        const userDataPath = path.join(__dirname, "../test-data/", "signUp.json"
-          );
-        try {
-            const data = await fs.readFile(userDataPath, 'utf8');
-            const jsonData = JSON.parse(data);
-            return jsonData[userKey];
-        } catch (error) {
-            console.error('Error reading JSON file:', error);
-            return null;
-        }
-    }
+    
 }
