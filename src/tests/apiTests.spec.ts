@@ -2,6 +2,9 @@ import { test, expect } from '@playwright/test'
 import { readUserData } from '../helpers/readUserData';
 import jsonpath from 'jsonpath';
 
+import path from "path";
+import * as fs from 'fs/promises';
+
 test.describe('User Sign Up API Testing', () => {
   const baseUrl = 'https://automationexercise.com/api'
 
@@ -14,7 +17,7 @@ test.describe('User Sign Up API Testing', () => {
 
   test(`API Test1: POST To Create/Register User Account - valid body data.`, async ({ request }) => {
 
-    const userKey = 'user1'; // Ключ пользователя из вашего JSON файла
+    const userKey = 'user1'; 
     const userData = await readUserData(userKey);
 
     const reqData = {
@@ -63,7 +66,7 @@ test.describe('User Sign Up API Testing', () => {
 
   test(`API Test2: POST To Verify Login with valid details.`, async ({ request }) => {
 
-    const userKey = 'user1'; // Ключ пользователя из вашего JSON файла
+    const userKey = 'user1'; 
     const userData = await readUserData(userKey);
 
     const reqData = {
@@ -119,7 +122,7 @@ test.describe('User Sign Up API Testing', () => {
 
   test(`API Test3: POST To Verify Login with invalid details.`, async ({ request }) => {
 
-    const userKey = 'user1'; // Ключ пользователя из вашего JSON файла
+    const userKey = 'user1'; 
     const userData = await readUserData(userKey);
 
     const reqData = {
@@ -232,6 +235,47 @@ test.describe('User Sign Up API Testing', () => {
       console.error("Error searching products with 'Yellow' term", err);
     }
   });
+
+  
+  
+test.only(`API Test6: Search Products With Dynamic Terms.`, async ({ request }) => {
+  try {
+    // Считываем параметры поиска из файла
+    
+    const dataPath = path.join(__dirname, "../test-data/", "searchParams.json");
+    const data = await fs.readFile(dataPath, 'utf8');
+    const searchParams = JSON.parse(data);
+
+    for (const searchParam of searchParams) {
+      const responseSearchData = await request.post(`${baseUrl}/searchProduct`, {
+        form: {
+          search_product: searchParam.term
+        },
+      });
+      const responseBody = await responseSearchData.json();
+
+      // Проверки для каждого запроса
+      if (searchParam.expectError) {
+        const errorResponse = jsonpath.query(responseBody, '$..error');
+        expect(errorResponse).not.toBeNull();
+      } else {
+        expect(responseBody.responseCode).toBe(200);
+        expect(responseBody.products).toBeInstanceOf(Array);
+
+        const actualProducts = jsonpath.query(responseBody, '$..name');
+        const productsWithSearchTerm = actualProducts.every(product => {
+          const description = product.toLowerCase();
+          return description.includes(searchParam.term.toLowerCase());
+        });
+
+        expect(productsWithSearchTerm).toBe(true);
+      }
+    }
+  } catch (err) {
+    console.error("Error searching products with dynamic terms", err);
+  }
+});
+
 
 
 })

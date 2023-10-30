@@ -1,5 +1,8 @@
 # TS_playwright
-
+1. Clone the repository: https://github.com/oleksiiKAV/TS_playwright.git into your PC
+2. Navigate to the created project directory
+3. Install all dependencies: npm install
+4. Run tests:  npm run tests
 
 s# AutomationExercise - Playwright UI & API Automation
 

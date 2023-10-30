@@ -3,8 +3,7 @@ import { AbstractPage } from './AbstractPage'
 import{homePageTitle} from "./consts"
 
 export class HomePage  extends AbstractPage {
-  // readonly page: Page
-  
+    
   readonly logo: Locator
   readonly signUpLoginBtn: Locator  
   readonly deleteCurrUserBtn: Locator
@@ -12,7 +11,7 @@ export class HomePage  extends AbstractPage {
   readonly cartBtn: Locator
 
   constructor(page: Page) {
-    // this.page = page
+    
     super(page)
     this.logo = page.locator('.logo')
     this.signUpLoginBtn = page.locator('[href="/login"]')

@@ -1,0 +1,4 @@
+[
+    { "term": "blue", "expectError": false },
+    { "term": "Yellow", "expectError": true }
+  ]
