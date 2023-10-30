@@ -3,7 +3,7 @@ import { readUserData } from '../helpers/readUserData';
 import jsonpath from 'jsonpath';
 
 test.describe('User Sign Up API Testing', () => {
-  const baseUrl = 'https://automationexercise.com/api'  
+  const baseUrl = 'https://automationexercise.com/api'
 
   test('API Test0: - Assert Invalid Endpoint', async ({ request }) => {
     const response = await request.get(`${baseUrl}/non-existing-endpoint`)
@@ -89,15 +89,15 @@ test.describe('User Sign Up API Testing', () => {
       const response = await request.post(`${baseUrl}/createAccount`, {
         form: reqData,
       });
-      
+
       const responseValidateData = await request.post(`${baseUrl}/verifyLogin`, {
         form: {
-          email:reqData.email,
-          password:reqData.password
+          email: reqData.email,
+          password: reqData.password
         },
       });
       const responseBody = await responseValidateData.json();
-      
+
       expect(responseBody.responseCode).toBe(200);
       expect(responseBody.message).toBe('User exists!')
     }
@@ -145,15 +145,15 @@ test.describe('User Sign Up API Testing', () => {
       const response = await request.post(`${baseUrl}/createAccount`, {
         form: reqData,
       });
-      
+
       const responseValidateData = await request.post(`${baseUrl}/verifyLogin`, {
         form: {
-          email:reqData.email,
-          password:reqData.password+readUserData.name
+          email: reqData.email,
+          password: reqData.password + readUserData.name
         },
       });
       const responseBody = await responseValidateData.json();
-      
+
       expect(responseBody.responseCode).toBe(404);
       expect(responseBody.message).toBe('User not found!')
     }
@@ -168,51 +168,70 @@ test.describe('User Sign Up API Testing', () => {
         },
       });
       const resDeleteResponseBody = await deleteResponse.json();
-      
+
       expect.soft(resDeleteResponseBody.responseCode).toBe(200);
     }
   });
 
-  test(`API Test4: POST To Search Product With Blue Term.`, async ({ request }) => {    
+  test(`API Test4: POST To Search Product With Blue Term.`, async ({ request }) => {
     try {
       const responseSearchData = await request.post(`${baseUrl}/searchProduct`, {
         form: {
-          search_product:"blue"
+          search_product: "blue"
         },
       });
       const responseBody = await responseSearchData.json();
-      
+
       expect(responseBody.responseCode).toBe(200);
+
+      expect(responseBody.products).toBeInstanceOf(Array);
+
+      const expectedProductStructure = {
+        id: expect.any(Number),
+        name: expect.any(String),
+        price: expect.any(String),
+        brand: expect.any(String),
+        category: {
+          usertype: {
+            usertype: expect.any(String),
+          },
+          category: expect.any(String),
+        },
+      };
+
+      for (const product of responseBody.products) {
+        expect(product).toMatchObject(expectedProductStructure);
+      }
 
       const actualProducts = jsonpath.query(responseBody, '$..name');
       // console.log(actualProducts)
       const productsWithBlueDescription = actualProducts.every(product => {
         const description = product.toLowerCase();
         return description.includes('blue');
-    });
+      });
 
-    expect(productsWithBlueDescription).toBe(true);
+      expect(productsWithBlueDescription).toBe(true);
     }
     catch (err) {
       console.error("Error searching products with 'Blue' term", err)
-    }    
+    }
   });
 
   test(`API Test5: POST To Search Product With Yellow Term.`, async ({ request }) => {
     try {
-        const responseSearchData = await request.post(`${baseUrl}/searchProduct`, {
-            form: {
-                search_product: "Yellow"
-            },
-        });
-        const responseBody = await responseSearchData.json();      
-        
-        const errorResponse = jsonpath.query(responseBody, '$..error');
-        expect(errorResponse).not.toBeNull();
+      const responseSearchData = await request.post(`${baseUrl}/searchProduct`, {
+        form: {
+          search_product: "Yellow"
+        },
+      });
+      const responseBody = await responseSearchData.json();
+
+      const errorResponse = jsonpath.query(responseBody, '$..error');
+      expect(errorResponse).not.toBeNull();
     } catch (err) {
-        console.error("Error searching products with 'Yellow' term", err);
-    }    
-});
+      console.error("Error searching products with 'Yellow' term", err);
+    }
+  });
 
 
 })
