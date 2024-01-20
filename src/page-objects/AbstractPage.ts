@@ -10,4 +10,5 @@ export class AbstractPage {
   async wait(time) {
     await this.page.waitForTimeout(time)
   }
+  
 }

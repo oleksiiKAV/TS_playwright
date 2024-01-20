@@ -1,6 +1,6 @@
 import { test, expect, BrowserContext } from '@playwright/test';
 
-test.only('Simulating API Response', async ({ page }) => {    
+test('Simulating API Response', async ({ page }) => {    
     
       await page.goto("https://oleksiikav.github.io/Tweets-Follow")
   
