@@ -238,7 +238,7 @@ test.describe('User Sign Up API Testing', () => {
 
   
   
-test.only(`API Test6: Search Products With Dynamic Terms.`, async ({ request }) => {
+test(`API Test6: Search Products With Dynamic Terms.`, async ({ request }) => {
   try {
     // Считываем параметры поиска из файла
     
