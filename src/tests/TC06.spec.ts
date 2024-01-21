@@ -6,24 +6,25 @@ import { ContactForm } from '../test-data/contactForm';
 
 test.describe('Test Case 6: Contact Us Form', () => {
     let contactFormPage : ContactFormPage
-    
+    test.beforeEach(async ({ page }) => {
+        //to block ads 
+        await page.route('**/*', request => {
+          return request.request().url().startsWith('https://googleads' || 'https://pagead2' || 'https://maps.googleapis')
+            ? request.abort()
+            : request.continue();
+        })
+        await page.goto('/')
+    })    
 
     test('Verify ContactUs Button on HomePage', async ({page}) => {
-        await page.goto('/');      
+        
         contactFormPage = new ContactFormPage(page);    
         contactFormPage.verifyContactFormBtn();
     });
 
-    //to block ads 
+    
     test.only('Validate the ContactUs Form', async ({ page }) => {
-        await page.goto('/');
-        // advertising interception
-        await page.route("**/*", (request) => {
-            request.request().url().startsWith("https://googleads.g.doubleclick.net")
-                ? request.abort()
-                : request.continue();
-            return;
-        });
+        
 
         contactFormPage = new ContactFormPage(page);
 

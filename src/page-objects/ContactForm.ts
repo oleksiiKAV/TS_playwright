@@ -39,8 +39,8 @@ export class ContactFormPage   extends AbstractPage{
     }
 
     async clickSubmitButton() {
-        await this.page.on('dialog', dialog => dialog.accept());
-        await this.SubmitBtn.click()
+        await this.page.on('dialog', dialog => {dialog.accept()});
+        await this.page.click('input[data-qa="submit-button"]');
     }
 
     async fillContactUsForm(name, email, subject, messageBody, filePath) {
@@ -53,13 +53,14 @@ export class ContactFormPage   extends AbstractPage{
     }
 
     async validateSucessMessage(exp_sucess_message) {
+        let contactForm = await this.page.locator('#contact-page')
+        await expect(await contactForm.getByText('Success! Your details have been submitted successfully.')).toBeVisible()
+        // // await this.SucessMessage.waitFor({state: "visible"})
+        // const sucessMesssage = await this.SucessMessage.textContent();
         
-        await this.SucessMessage.waitFor({state: "visible"})
-        const sucessMesssage = await this.SucessMessage.textContent();
         
-        
-        console.log(sucessMesssage);
-        await expect(sucessMesssage).toBe(exp_sucess_message)
+        // console.log(sucessMesssage);
+        // await expect(sucessMesssage).toBe(exp_sucess_message)
     }
 
     async clickHomeBtn() {
