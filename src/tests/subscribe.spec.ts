@@ -21,13 +21,24 @@ test.describe.parallel('UI Tests', () => {
     await context.close();
   });
 
-  test.only('UI Test10 - Verify Subscription in home page',
-    async ({}) => {
-        await subscrPage.page.pause();
+  test('UI Test10 - Verify Subscription in home page',
+    async ({}) => {        
         await subscrPage.verifyPageIsOpened();        
         await subscrPage.verifySubscribeHeader();
         await subscrPage.subscribeHomeFillAndClickBtn(generateRandomString(10) + '@example.com')
         await subscrPage.verifySubscribeSuccess();
     }
   );
+
+  test('UI Test11 - Verify Subscription in cart page',
+    async ({}) => {        
+        await subscrPage.verifyPageIsOpened();
+        await subscrPage.cartBtn.click();       
+
+        await subscrPage.verifySubscribeHeader();
+        await subscrPage.subscribeHomeFillAndClickBtn(generateRandomString(10) + '@example.com')
+        await subscrPage.verifySubscribeSuccess();
+    }
+  );
+
 })
